@@ -1,5 +1,5 @@
 import pytest
-from app import app
+from app import app  # app.py is in project root
 
 @pytest.fixture
 def client():
