@@ -10,12 +10,8 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '''
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install --upgrade pip
-                pip install -r requirements.txt
-                '''
+                sh 'python3 -m venv venv'
+                sh '. venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt'
             }
         }
 
@@ -24,17 +20,14 @@ pipeline {
                 sh '''
                 . venv/bin/activate
                 export PYTHONPATH=$(pwd)
-                pytest tests
+                pytest test_app.py
                 '''
             }
         }
 
         stage('Build & Deploy') {
             steps {
-                sh '''
-                . venv/bin/activate
-                nohup python app.py &
-                '''
+                sh '. venv/bin/activate && nohup python app.py &'
             }
         }
     }
